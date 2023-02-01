@@ -1,19 +1,87 @@
-interface Student { firstName: string; lastName: string; age: number; location: string; }
-// Create two students 
-let student1: Student = { firstName: "John", lastName: "Smith", age: 25, location: "New York" };
+export interface Student {
+  firstName: string;
+  lastName: string;
+  age: number;
+  location: string;
+}
+const studentA: Student = {
+  firstName: "Harry",
+  lastName: "Yoon",
+  age: 22,
+  location: "Seoul, South Korea",
+};
+const studentB: Student = {
+  firstName: "Anjali",
+  lastName: "Prajapati",
+  age: 22,
+  location: "Lodz, Poland",
+};
 
-let student2: Student = { firstName: "Jane", lastName: "Doe", age: 22, location: "Los Angeles" };
+const studentsList: Array<Student> = [
+  studentA,
+  studentB,
+];
+const styleSheet = `
+  html {
+    margin: 0;
+    height: 100%;
+  }
+  body {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    margin: 10%;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  thead {
+    font-weight: bold;
+  }
+  td {
+    padding: 10px;
+    border: 1px solid gray;
+    cursor: pointer;
+  }
+  td:hover {
+    background: gainsboro;
+  }
 
-// Create an array containing the two variables 
-let studentsList: Student[] = [student1, student2];
+  td:nth-child(1) {
+    text-align: center;
+  }
+`;
 
-// Render a table using Vanilla Javascript 
-let table = document.createElement("table");
+/**
+ * Displays information about students in a table.
+ * @param students The list of students to display.
+ * @author Benjamin Eruvieru <https://github.com/benjamineruvieru>
+ */
+export const displayStudents = (students: Array<Student>): void => {
+  const table = document.createElement('table');
+  const tableHead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  const tableBody = document.createElement('tbody');
+  headRow.insertAdjacentHTML('beforeend', '<td>FirstName</td');
+  headRow.insertAdjacentHTML('beforeend', '<td>Location</td');
+  tableHead.insertAdjacentElement('beforeend', headRow);
 
-// Append a new row for each element in the array 
-studentsList.forEach(student => { let row = table.insertRow(); let nameCell = row.insertCell(); let locationCell = row.insertCell();
+  for (const student of students) {
+    const bodyRow = document.createElement('tr');
+    bodyRow.insertAdjacentHTML('beforeend', `<td>${student.firstName}</td>`);
+    bodyRow.insertAdjacentHTML('beforeend', `<td>${student.location}</td>`);
+    tableBody.insertAdjacentElement('beforeend', bodyRow);
+  }
 
-// Add the student's first name and location to the row
-nameCell.innerHTML = student.firstName;
-locationCell.innerHTML = student.location;
-});
+  table.insertAdjacentElement('beforeend', tableHead);
+  table.insertAdjacentElement('beforeend', tableBody);
+  document.body.insertAdjacentElement('beforeend', table);
+};
+
+displayStudents(studentsList);
+const styleSheetElement = document.createElement('style');
+styleSheetElement.innerHTML = styleSheet;
+document.head.insertAdjacentElement('beforeend', styleSheetElement);
+document.title = 'Task 0';
